@@ -11,6 +11,9 @@ private:
   bool debug_; /* Enables debugging output */
 
   /* Add member variables here */
+  uint64_t rtt;
+  uint64_t last_sent;
+  float wsz;
 
 public:
   /* Public interface for the congestion controller */
