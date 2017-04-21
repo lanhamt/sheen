@@ -5,6 +5,9 @@
 
 using namespace std;
 
+#define RTT_EXPAND_THRESH 50
+#define RTT_CONTRACT_THRESH 95
+
 /* Default constructor */
 Controller::Controller( const bool debug)
   : debug_( debug ), rtt(1000), last_sent(timestamp_ms()), wsz(50)
@@ -67,8 +70,16 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   rtt = (timestamp_ack_received - send_timestamp_acked);
-  wsz = wsz + 1/wsz;
-
+  if (rtt < RTT_EXPAND_THRESH) 
+    {
+      wsz++;
+      if ( debug_ ) cerr << "__DEBUG__: expanding win | rtt: " << rtt << endl;
+    } 
+  else if (rtt > RTT_CONTRACT_THRESH) 
+    {
+      wsz--;
+      if ( debug_ ) cerr << "__DEBUG__: contracting win | rtt: " << rtt << endl;
+    }
 }
 
 /* How long to wait (in milliseconds) if there are no acks
