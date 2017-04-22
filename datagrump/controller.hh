@@ -11,7 +11,8 @@ private:
   bool debug_; /* Enables debugging output */
 
   /* Add member variables here */
-  uint64_t rtt;
+  int rtt;
+  int old_rtt;
   uint64_t last_sent;
   float wsz;
 
