@@ -84,6 +84,9 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
     cerr << "__DEBUG__: "<< "(" << wsz <<")"  << " increasing: " << (((float)rtt - (float)old_rtt) / (float)old_rtt) * wsz << endl;
   }
 
+  if (wsz < 5)
+    wsz = 40;
+
   rtt = (timestamp_ack_received - send_timestamp_acked);
   if (rtt < RTT_EXPAND_THRESH) 
     {
