@@ -21,8 +21,10 @@ unsigned int Controller::window_size( void )
 
   if (wsz > 200)
     wsz = 80;
-  else if (wsz < 5)
-    wsz = 10;
+  else if (wsz < 10)
+    wsz = 20;
+
+  cerr << "__DEBUG__:       updating wsz:  " << wsz <<endl;
 
   /* Default: fixed window size of 100 outstanding datagrams */
   unsigned int the_window_size = (unsigned int) wsz;
@@ -78,10 +80,10 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   if (rtt - old_rtt > 0) {
     wsz -= (((float)rtt - (float)old_rtt) / (float)old_rtt) * wsz;
     wsz = wsz < 0 ? 0 : wsz;
-    cerr << "__DEBUG__: "<< "(" << wsz <<")"  << " decreasing: " << (((float)rtt - (float)old_rtt) / (float)old_rtt) * wsz << endl;
+    cerr << "__DEBUG__: "<< "(" << wsz <<")"  << " decreasing: " << (((float)rtt - (float)old_rtt) / (float)old_rtt)  << endl;
   } else {
     wsz += (((float)old_rtt - (float)rtt) / (float)rtt) * wsz;
-    cerr << "__DEBUG__: "<< "(" << wsz <<")"  << " increasing: " << (((float)rtt - (float)old_rtt) / (float)old_rtt) * wsz << endl;
+    cerr << "__DEBUG__: "<< "(" << wsz <<")"  << " increasing: " << (((float)rtt - (float)old_rtt) / (float)old_rtt)  << endl;
   }
 
   if (wsz < 5)
@@ -104,5 +106,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return rtt; /* timeout of one second */
+  return (rtt / 2) + (rtt / 4) ; /* timeout of one second */
 }
