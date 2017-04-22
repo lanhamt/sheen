@@ -21,8 +21,8 @@ unsigned int Controller::window_size( void )
 
   if (wsz > 200)
     wsz = 80;
-  else if (wsz < 20)
-    wsz = 40;
+  else if (wsz < 5)
+    wsz = 10;
 
   /* Default: fixed window size of 100 outstanding datagrams */
   unsigned int the_window_size = (unsigned int) wsz;
@@ -85,7 +85,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   if (wsz < 5)
-    wsz = 40;
+    wsz = 10;
 
   rtt = (timestamp_ack_received - send_timestamp_acked);
   if (rtt < RTT_EXPAND_THRESH) 
