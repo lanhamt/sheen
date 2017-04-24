@@ -123,5 +123,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 3*max_rtt;//(rtt / 2) + (rtt / 4) ; /* timeout of one second */
+  return 2*rtt;//(rtt / 2) + (rtt / 4) ; /* timeout of one second */
 }
