@@ -2,6 +2,9 @@
 #define CONTROLLER_HH
 
 #include <cstdint>
+#include <list>
+
+using namespace std;
 
 /* Congestion controller interface */
 
@@ -13,8 +16,10 @@ private:
   /* Add member variables here */
   int rtt;
   int old_rtt;
-  uint64_t last_sent;
+  int max_rtt;
+  int min_rtt;
   float wsz;
+  list<int> recent_rtts;
 
 public:
   /* Public interface for the congestion controller */
