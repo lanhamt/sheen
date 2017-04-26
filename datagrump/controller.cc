@@ -13,7 +13,7 @@ using namespace std;
 
 /* Default constructor */
 Controller::Controller( const bool debug)
-  : debug_( debug ), rtt(90), old_rtt(90), wsz(10), slow_start_thresh(500), 
+  : debug_( debug ), rtt(90), old_rtt(90), wsz(13.0), slow_start_thresh(500), 
     timeouts(0), state(SLOW_START)
 {
   debug_ = false;
@@ -48,7 +48,6 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
   }
 }
 
-float timeout = 90.0; // TODO remove
 #define TIMEOUT_RETRY 8
 
 /* An ack was received */
@@ -72,7 +71,6 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   rtt = (timestamp_ack_received - send_timestamp_acked);
-  timeout = 2*(0.9*old_rtt + 0.1*rtt); // TODO remove
 
   if (state == SLOW_START || state == FAST_RECOVERY)
     {
