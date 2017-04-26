@@ -6,6 +6,8 @@
 
 using namespace std;
 
+enum state_t { SLOW_START, CONGEST_AVOID, FAST_RECOVERY };
+
 /* Congestion controller interface */
 
 class Controller
@@ -14,12 +16,11 @@ private:
   bool debug_; /* Enables debugging output */
 
   /* Add member variables here */
-  int rtt;
-  int old_rtt;
-  int max_rtt;
-  int min_rtt;
+  float rtt;
+  float old_rtt;
   float wsz;
-  list<int> recent_rtts;
+  float slow_start_thresh;
+  state_t state;
 
 public:
   /* Public interface for the congestion controller */
