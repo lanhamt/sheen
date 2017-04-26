@@ -20,6 +20,7 @@ private:
   float old_rtt;
   float wsz;
   float slow_start_thresh;
+  int timeouts;
   state_t state;
 
 public:
