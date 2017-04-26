@@ -75,7 +75,8 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
       if (rtt >= TIMEOUT)
         {
           slow_start_thresh = wsz / 2;
-          wsz = slow_start_thresh;
+          wsz = slow_start_thresh + 3;   /* Set window to sthresh + 3 
+                                            per fast recovery. */
         }
       else if (wsz > slow_start_thresh)
         {
@@ -96,7 +97,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
       if (rtt >= TIMEOUT)
         {
           slow_start_thresh = wsz / 2;
-          wsz = slow_start_thresh;
+          wsz = slow_start_thresh + 3;
           state = FAST_RECOVERY;
         }
       else
