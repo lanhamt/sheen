@@ -22,6 +22,8 @@ Controller::Controller( const bool debug)
 /* Get current window size, in datagrams */
 unsigned int Controller::window_size( void )
 {
+  if (wsz < 2)
+    wsz = 2;
 
   /* Default: fixed window size of 100 outstanding datagrams */
   unsigned int the_window_size = (unsigned int) wsz;
@@ -36,8 +38,8 @@ unsigned int Controller::window_size( void )
 
 /* A datagram was sent */
 void Controller::datagram_was_sent( const uint64_t sequence_number,
-                                            /* of the sent datagram */
-                                            const uint64_t send_timestamp )
+                                    /* of the sent datagram */
+                                    const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
   if ( debug_ ) {
@@ -70,7 +72,12 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
 
   if (state == SLOW_START || state == FAST_RECOVERY)
     {
-      if (wsz > slow_start_thresh)
+      if (rtt >= TIMEOUT)
+        {
+          slow_start_thresh = wsz / 2;
+          wsz = slow_start_thresh;
+        }
+      else if (wsz > slow_start_thresh)
         {
           slow_start_thresh = wsz / 2;
           state = CONGEST_AVOID;
