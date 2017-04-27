@@ -3,12 +3,14 @@
 #include "controller.hh"
 #include "timestamp.hh"
 
+#define RETRANSMIT_TIMEOUT 1000
+
 using namespace std;
 
 /* Default constructor */
 Controller::Controller( const bool debug )
   : debug_( debug ), 
-    wsz(50)          /* Window size, constant. */
+    wsz(50)          /* Initialize window size, constant. */
 {}
 
 /* Get current window size, in datagrams */
@@ -62,5 +64,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 1000; /* timeout of one second */
+  return RETRANSMIT_TIMEOUT; /* timeout of one second */
 }
