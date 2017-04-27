@@ -12,8 +12,6 @@ private:
 
   /* Add member variables here */
   int rtt;
-  int old_rtt;
-  uint64_t last_sent;
   float wsz;
 
 public:
