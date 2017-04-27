@@ -1,0 +1,181 @@
+wsz = 1
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.23 Mbits/s (4.5% utilization)
+95th percentile per-packet queueing delay: 20 ms
+95th percentile signal delay: 109 ms
+
+wsz = 2
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.45 Mbits/s (8.9% utilization)
+95th percentile per-packet queueing delay: 21 ms
+95th percentile signal delay: 100 ms
+
+wsz = 3
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.66 Mbits/s (13.2% utilization)
+95th percentile per-packet queueing delay: 25 ms
+95th percentile signal delay: 101 ms
+
+wsz = 4
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.87 Mbits/s (17.3% utilization)
+95th percentile per-packet queueing delay: 28 ms
+95th percentile signal delay: 108 ms
+
+wsz = 5
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.08 Mbits/s (21.4% utilization)
+95th percentile per-packet queueing delay: 33 ms
+95th percentile signal delay: 111 ms
+
+wsz = 6
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.27 Mbits/s (25.2% utilization)
+95th percentile per-packet queueing delay: 38 ms
+95th percentile signal delay: 117 ms
+
+wsz = 7
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.46 Mbits/s (28.9% utilization)
+95th percentile per-packet queueing delay: 42 ms
+95th percentile signal delay: 125 ms
+
+wsz = 8
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.64 Mbits/s (32.5% utilization)
+95th percentile per-packet queueing delay: 46 ms
+95th percentile signal delay: 137 ms
+
+wsz = 9
+=======
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.81 Mbits/s (35.9% utilization)
+95th percentile per-packet queueing delay: 50 ms
+95th percentile signal delay: 145 ms
+
+wsz = 10
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.98 Mbits/s (39.2% utilization)
+95th percentile per-packet queueing delay: 56 ms
+95th percentile signal delay: 154 ms
+
+wsz = 15
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 2.71 Mbits/s (53.9% utilization)
+95th percentile per-packet queueing delay: 75 ms
+95th percentile signal delay: 214 ms
+
+wsz = 20
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 3.30 Mbits/s (65.5% utilization)
+95th percentile per-packet queueing delay: 96 ms
+95th percentile signal delay: 276 ms
+
+wsz = 25
+========
+verage capacity: 5.04 Mbits/s
+Average throughput: 3.76 Mbits/s (74.6% utilization)
+95th percentile per-packet queueing delay: 118 ms
+95th percentile signal delay: 344 ms
+
+wsz = 30
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.11 Mbits/s (81.5% utilization)
+95th percentile per-packet queueing delay: 143 ms
+95th percentile signal delay: 402 ms
+
+wsz = 35
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.36 Mbits/s (86.4% utilization)
+95th percentile per-packet queueing delay: 167 ms
+95th percentile signal delay: 454 ms
+
+wsz = 40
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.54 Mbits/s (90.1% utilization)
+95th percentile per-packet queueing delay: 191 ms
+95th percentile signal delay: 504 ms
+
+wsz = 45
+========
+iAverage capacity: 5.04 Mbits/s
+Average throughput: 4.68 Mbits/s (92.9% utilization)
+95th percentile per-packet queueing delay: 214 ms
+95th percentile signal delay: 558 ms
+
+wsz = 50
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.79 Mbits/s (95.1% utilization)
+95th percentile per-packet queueing delay: 237 ms
+95th percentile signal delay: 608 ms
+
+wsz = 75
+========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.98 Mbits/s (98.8% utilization)
+95th percentile per-packet queueing delay: 375 ms
+95th percentile signal delay: 857 ms
+
+wsz = 100
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.02 Mbits/s (99.6% utilization)
+95th percentile per-packet queueing delay: 517 ms
+95th percentile signal delay: 1053 ms
+
+wsz = 125
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.97 Mbits/s (98.6% utilization)
+95th percentile per-packet queueing delay: 673 ms
+95th percentile signal delay: 1234 ms
+
+wsz = 150
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.00 Mbits/s (99.1% utilization)
+95th percentile per-packet queueing delay: 829 ms
+95th percentile signal delay: 1428 ms
+
+wsz = 175
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.04 Mbits/s (99.9% utilization)
+95th percentile per-packet queueing delay: 1001 ms
+95th percentile signal delay: 1575 ms
+
+wsz = 200
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.04 Mbits/s (99.9% utilization)
+95th percentile per-packet queueing delay: 1185 ms
+95th percentile signal delay: 1734 ms
+
+wsz = 250
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.04 Mbits/s (100.0% utilization)
+95th percentile per-packet queueing delay: 1540 ms
+95th percentile signal delay: 2015 ms
+
+wsz = 350
+=========
+Average capacity: 5.04 Mbits/s
+Average throughput: 5.04 Mbits/s (99.9% utilization)
+95th percentile per-packet queueing delay: 2150 ms
+95th percentile signal delay: 2848 ms
