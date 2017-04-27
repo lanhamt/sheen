@@ -7,7 +7,7 @@ using namespace std;
 
 /* Default constructor */
 Controller::Controller( const bool debug)
-  : debug_( debug ), rtt(1000), last_sent(timestamp_ms()), wsz(50)
+  : debug_( debug ), rtt(1000), wsz(10)
 {
   debug_ = false;
 }
@@ -15,7 +15,6 @@ Controller::Controller( const bool debug)
 /* Get current window size, in datagrams */
 unsigned int Controller::window_size( void )
 {
-  /* Default: fixed window size of 100 outstanding datagrams */
   unsigned int the_window_size = (unsigned int) wsz;
 
   if ( debug_ ) {
@@ -32,14 +31,6 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 				                            const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
-  /* Default: take no action */
-  if ((send_timestamp - last_sent) > rtt){
-    if ( debug_ )  cerr << "__DEBUG__: halving window " << "rtt= " << rtt << endl;
-    wsz = wsz/2;
-  }
-
-  last_sent = timestamp_ms();
-
   if ( debug_ ) {
     cerr << "At time " << send_timestamp
 	 << " sent datagram " << sequence_number << endl;
@@ -48,7 +39,7 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 
 /* An ack was received */
 void Controller::ack_received( const uint64_t sequence_number_acked,
-			                         /* what sequence number was acknowledged */
+		                           /* what sequence number was acknowledged */
 			                         const uint64_t send_timestamp_acked,
 			                         /* when the acknowledged datagram was sent (sender's clock) */
 			                         const uint64_t recv_timestamp_acked,
@@ -67,13 +58,17 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   rtt = (timestamp_ack_received - send_timestamp_acked);
-  wsz = wsz + 1/wsz;
 
+  /* AIMD. */
+  if (rtt > timeout_ms())
+    wsz /= 2;
+  else
+    wsz += 1;
 }
 
 /* How long to wait (in milliseconds) if there are no acks
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return rtt; /* timeout of one second */
+  return 100; /* timeout of one second */
 }
