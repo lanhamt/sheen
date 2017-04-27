@@ -9,12 +9,25 @@
 
 using namespace std;
 
+/* Best experimentally found retransmit timer value. */
 #define TIMEOUT 90
+
+/* Best experimentally found timeout retry counter, so
+   setting ssthresh to half of window size and window size
+   to that value +3 happens once every TIMEOUT_RETRY tries.
+   This is to avoid overreacting to consecutive delay since 
+   the primary mechanism for TCP relies on a timer going off 
+   when a packet is lost, we don't want to overcompensate. */
+#define TIMEOUT_RETRY 8
 
 /* Default constructor */
 Controller::Controller( const bool debug)
-  : debug_( debug ), rtt(90), old_rtt(90), wsz(13.0), slow_start_thresh(500), 
-    timeouts(0), state(SLOW_START)
+  : debug_( debug ), 
+    rtt(0),                 /* Initialize RTT. */
+    wsz(13.0),              /* Initial window size, found experimentally. */
+    slow_start_thresh(500), /* Initial ssthresh, found experimentally. */
+    timeouts(0),            /* Timeout counter. */
+    state(SLOW_START)       /* Begin in slow start state. */
 {
   debug_ = false;
 }
@@ -48,8 +61,6 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
   }
 }
 
-#define TIMEOUT_RETRY 8
-
 /* An ack was received */
 void Controller::ack_received( const uint64_t sequence_number_acked,
                                /* what sequence number was acknowledged */
@@ -76,6 +87,9 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
     {
       if (rtt >= TIMEOUT)
         {
+          /* When timeout occurs, do timeout adjustments if several timeouts
+             have occurred and reset the counter, otherwise just increment
+             the counter to avoid overreacting to delay. */
           if (timeouts < TIMEOUT_RETRY)
             timeouts++;
           else
@@ -88,20 +102,26 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
         }
       else if (wsz > slow_start_thresh)
         {
+          /* Move to congestion avoidance state if window size has grown
+             beyond slow start. */
           state = CONGEST_AVOID;
           wsz += (1 / wsz);
         }
       else if (state == FAST_RECOVERY)
         {
+          /* Try to recover faster by doubling growth rate. */
           wsz += 2;
         }
       else
+        /* Increase window size by 1 segment per RTT for initial
+           slow start. */
         wsz += 1;
     }
   else if (state == CONGEST_AVOID)
     {
       if (rtt >= TIMEOUT)
         {
+          /* When timeout occurs, move to fast recovery. */
           if (timeouts < TIMEOUT_RETRY)
             timeouts++;
           else
@@ -114,10 +134,10 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
           state = FAST_RECOVERY;
         }
       else
+        /* For each RTT, increase by 1/wsz so window size grows 
+           by 1 for each fully received window. */
         wsz += 1 / wsz;
     }
-
-  old_rtt = rtt;
 }
 
 /* How long to wait (in milliseconds) if there are no acks

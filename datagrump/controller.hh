@@ -17,7 +17,6 @@ private:
 
   /* Add member variables here */
   float rtt;
-  float old_rtt;
   float wsz;
   float slow_start_thresh;
   int timeouts;
