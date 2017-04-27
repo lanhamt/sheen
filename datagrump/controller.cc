@@ -5,9 +5,13 @@
 
 using namespace std;
 
+#define RETRANSMIT_TIMEOUT 1000
+
 /* Default constructor */
 Controller::Controller( const bool debug)
-  : debug_( debug ), rtt(1000), wsz(10)
+  : debug_( debug ), 
+    rtt(1000),         /* Initialize RTT, won't be used until value is updated with real RTT. */
+    wsz(10)            /* Initialize cwnd. */
 {
   debug_ = false;
 }
@@ -27,8 +31,8 @@ unsigned int Controller::window_size( void )
 
 /* A datagram was sent */
 void Controller::datagram_was_sent( const uint64_t sequence_number,
-				                            /* of the sent datagram */
-				                            const uint64_t send_timestamp )
+				    /* of the sent datagram */
+				    const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
   if ( debug_ ) {
@@ -39,16 +43,14 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 
 /* An ack was received */
 void Controller::ack_received( const uint64_t sequence_number_acked,
-		                           /* what sequence number was acknowledged */
-			                         const uint64_t send_timestamp_acked,
-			                         /* when the acknowledged datagram was sent (sender's clock) */
-			                         const uint64_t recv_timestamp_acked,
-			                         /* when the acknowledged datagram was received (receiver's clock)*/
-			                         const uint64_t timestamp_ack_received )
+		               /* what sequence number was acknowledged */
+			       const uint64_t send_timestamp_acked,
+			       /* when the acknowledged datagram was sent (sender's clock) */
+			       const uint64_t recv_timestamp_acked,
+			       /* when the acknowledged datagram was received (receiver's clock)*/
+			       const uint64_t timestamp_ack_received )
                                /* when the ack was received (by sender) */
 {
-  /* Default: take no action */
-
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked
@@ -59,7 +61,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
 
   rtt = (timestamp_ack_received - send_timestamp_acked);
 
-  /* AIMD. */
+  /* AIMD, decrease by halving window size, increase window size by 1 for each RTT. */
   if (rtt > timeout_ms())
     wsz /= 2;
   else
@@ -70,5 +72,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 100; /* timeout of one second */
+  return RETRANSMIT_TIMEOUT; /* timeout of one second */
 }
